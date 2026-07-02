@@ -1,18 +1,13 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (with compression)
 
 on:
   push:
-    branches: ["main", "master"]
-  workflow_dispatch:
+    branches: [ "main", "master" ]
 
 permissions:
   contents: read
   pages: write
   id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -22,18 +17,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4
+
+      - name: Compress static assets
+        run: |
+          # 查找所有需要压缩的文件（避免空匹配报错）
+          shopt -s nullglob
+          files=( lib/*.js lib/*.css lib/**/*.js lib/**/*.css index.html )  # 可自行添加更多类型
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No files to compress"
+          else
+            echo "Compressing ${#files[@]} files..."
+            gzip -k "${files[@]}"
+            # 查看压缩后大小
+            ls -lh *.gz lib/*.gz 2>/dev/null || true
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3.0.1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
+          retention-days: 1
+        # 可以增加重试（但 upload-pages-artifact 本身有重试机制）
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.5
-        with:
-          timeout: 1200000
+        uses: actions/deploy-pages@v4
+        timeout-minutes: 20  # 20分钟足够（关键是 artifact 上传已完成）
