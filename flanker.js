@@ -528,7 +528,7 @@ function PractTrialsLoopBegin(PractTrialsLoopScheduler, snapshot) {
     // set up handler to look after randomisation of conditions etc
     PractTrials = new TrialHandler({
       psychoJS: psychoJS,
-      nReps: 5, method: TrialHandler.Method.RANDOM,
+      nReps: 3, method: TrialHandler.Method.RANDOM,
       extraInfo: expInfo, originPath: undefined,
       trialList: 'trialTypes.csv',
       seed: undefined, name: 'PractTrials'
@@ -1350,10 +1350,10 @@ function CheckRoutineBegin(snapshot) {
     // update component parameters for each repeat
     // Run 'Begin Routine' code from code_3
     rate_correct = ((times_correct * 100) / times_total);
-    if ((rate_correct > 80)) {
-        checkString = "\n\u51c6\u786e\u7387\u9ad8\u4e8e80%\uff0c\u7ec3\u4e60\u901a\u8fc7!\n\u5373\u5c06\u8fdb\u5165\u6b63\u5f0f\u6d4b\u8bd5\u3002\n";
+    if ((rate_correct > 74)) {
+        checkString = "\n\u7ec3\u4e60\u901a\u8fc7!\n\u5373\u5c06\u8fdb\u5165\u6b63\u5f0f\u6d4b\u8bd5\u3002\n";
     } else {
-        checkString = "\n\u51c6\u786e\u7387\u4f4e\u4e8e\u4e8e80%\uff0c\u7ec3\u4e60\u672a\u901a\u8fc7!\n\u8bf7\u7ee7\u7eed\u7ec3\u4e60\u3002\n";
+        checkString = "\n\u51c6\u786e\u7387\u4f4e\u4e8e75%\uff0c\u8bf7\u7ee7\u7eed\u7ec3\u4e60\u3002\n";
     }
     times_total = 0;
     times_correct = 0;
