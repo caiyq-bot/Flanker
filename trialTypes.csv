@@ -1,5 +1,5 @@
 ﻿side,center,corrAnswer,consistency
-<,<,f,consistent
-<,>,j,inconsistent
->,>,j,consistent
->,<,f,inconsistent
+<,<,z,consistent
+<,>,m,inconsistent
+>,>,m,consistent
+>,<,z,inconsistent
