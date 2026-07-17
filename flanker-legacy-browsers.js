@@ -100,7 +100,7 @@ async function updateInfo() {
   currentLoop = psychoJS.experiment;  // right now there are no loops
   expInfo['date'] = util.MonotonicClock.getDateStr();  // add a simple timestamp
   expInfo['expName'] = expName;
-  expInfo['psychopyVersion'] = '2026.1.3';
+  expInfo['psychopyVersion'] = '2025.1.1';
   expInfo['OS'] = window.navigator.platform;
 
 
@@ -180,7 +180,7 @@ async function experimentInit() {
   instrPractText = new visual.TextStim({
     win: psychoJS.window,
     name: 'instrPractText',
-    text: '练习模式\n\n在屏幕中央会出现一组箭头，\n请你根据中间箭头的方向选择按键。\n如果中间箭头是"<"，左手食指按"f"键；\n如果中间箭头是">"，右手食指按"j"键；\n\n【按空格键进入练习...】',
+    text: '练习模式\n\n在屏幕中央会出现一组箭头，\n请你根据中间箭头的方向选择按键。\n如果中间箭头是"<"，左手食指按"z"键；\n如果中间箭头是">"，右手食指按"m"键；\n\n【按空格键进入练习...】',
     font: 'Arial',
     units: undefined, 
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
@@ -269,7 +269,7 @@ async function experimentInit() {
   instrTrainText = new visual.TextStim({
     win: psychoJS.window,
     name: 'instrTrainText',
-    text: '欢迎进入正式测试\n\n在屏幕中央会出现一组箭头，\n请你根据中间箭头的方向选择按键。\n如果中间箭头是"<"，左手食指按"f"键；\n如果中间箭头是">"，右手食指按"j"键；\n\n【按空格键继续...】',
+    text: '欢迎进入正式测试\n\n在屏幕中央会出现一组箭头，\n请你根据中间箭头的方向选择按键。\n如果中间箭头是"<"，左手食指按"z"键；\n如果中间箭头是">"，右手食指按"m"键；\n\n【按空格键继续...】',
     font: 'Arial',
     units: undefined, 
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
@@ -400,10 +400,7 @@ function welcomeRoutineEachFrame() {
     
     // if key_resp_wel is active this frame...
     if (key_resp_wel.status === PsychoJS.Status.STARTED) {
-      let theseKeys = key_resp_wel.getKeys({
-        keyList: typeof 'space' === 'string' ? ['space'] : 'space', 
-        waitRelease: false
-      });
+      let theseKeys = key_resp_wel.getKeys({keyList: 'space', waitRelease: false});
       _key_resp_wel_allKeys = _key_resp_wel_allKeys.concat(theseKeys);
       if (_key_resp_wel_allKeys.length > 0) {
         key_resp_wel.keys = _key_resp_wel_allKeys[_key_resp_wel_allKeys.length - 1].name;  // just the last key pressed
@@ -483,7 +480,7 @@ function CheckTrialsLoopBegin(CheckTrialsLoopScheduler, snapshot) {
     // set up handler to look after randomisation of conditions etc
     CheckTrials = new TrialHandler({
       psychoJS: psychoJS,
-      nReps: 99, method: TrialHandler.Method.RANDOM,
+      nReps: 10, method: TrialHandler.Method.RANDOM,
       extraInfo: expInfo, originPath: undefined,
       trialList: undefined,
       seed: undefined, name: 'CheckTrials'
@@ -522,7 +519,7 @@ function PractTrialsLoopBegin(PractTrialsLoopScheduler, snapshot) {
     // set up handler to look after randomisation of conditions etc
     PractTrials = new TrialHandler({
       psychoJS: psychoJS,
-      nReps: 5, method: TrialHandler.Method.RANDOM,
+      nReps: 3, method: TrialHandler.Method.RANDOM,
       extraInfo: expInfo, originPath: undefined,
       trialList: 'trialTypes.csv',
       seed: undefined, name: 'PractTrials'
@@ -821,10 +818,7 @@ function InstrPractRoutineEachFrame() {
     
     // if practReady is active this frame...
     if (practReady.status === PsychoJS.Status.STARTED) {
-      let theseKeys = practReady.getKeys({
-        keyList: typeof 'space' === 'string' ? ['space'] : 'space', 
-        waitRelease: false
-      });
+      let theseKeys = practReady.getKeys({keyList: 'space', waitRelease: false});
       _practReady_allKeys = _practReady_allKeys.concat(theseKeys);
       if (_practReady_allKeys.length > 0) {
         practReady.keys = _practReady_allKeys[_practReady_allKeys.length - 1].name;  // just the last key pressed
@@ -1093,10 +1087,7 @@ function StimulateRoutineEachFrame() {
     
     // if key_resp is active this frame...
     if (key_resp.status === PsychoJS.Status.STARTED) {
-      let theseKeys = key_resp.getKeys({
-        keyList: typeof ["f","j"] === 'string' ? [["f","j"]] : ["f","j"], 
-        waitRelease: false
-      });
+      let theseKeys = key_resp.getKeys({keyList: ["z","m"], waitRelease: false});
       _key_resp_allKeys = _key_resp_allKeys.concat(theseKeys);
       if (_key_resp_allKeys.length > 0) {
         key_resp.keys = _key_resp_allKeys[_key_resp_allKeys.length - 1].name;  // just the last key pressed
@@ -1351,10 +1342,10 @@ function CheckRoutineBegin(snapshot) {
     // update component parameters for each repeat
     // Run 'Begin Routine' code from code_3
     rate_correct = ((times_correct * 100) / times_total);
-    if ((rate_correct > 80)) {
-        checkString = "\n\u51c6\u786e\u7387\u9ad8\u4e8e80%\uff0c\u7ec3\u4e60\u901a\u8fc7!\n\u5373\u5c06\u8fdb\u5165\u6b63\u5f0f\u6d4b\u8bd5\u3002\n";
+    if ((rate_correct > 75)) {
+        checkString = "\n\u7ec3\u4e60\u901a\u8fc7!\n\u5373\u5c06\u8fdb\u5165\u6b63\u5f0f\u6d4b\u8bd5\u3002\n";
     } else {
-        checkString = "\n\u51c6\u786e\u7387\u4f4e\u4e8e\u4e8e80%\uff0c\u7ec3\u4e60\u672a\u901a\u8fc7!\n\u8bf7\u7ee7\u7eed\u7ec3\u4e60\u3002\n";
+        checkString = "\n\u51c6\u786e\u7387\u4f4e\u4e8e75%\uff0c\u8bf7\u7ee7\u7eed\u7ec3\u4e60\u3002\n";
     }
     times_total = 0;
     times_correct = 0;
@@ -1538,10 +1529,7 @@ function InstrTrainRoutineEachFrame() {
     
     // if trainReady is active this frame...
     if (trainReady.status === PsychoJS.Status.STARTED) {
-      let theseKeys = trainReady.getKeys({
-        keyList: typeof 'space' === 'string' ? ['space'] : 'space', 
-        waitRelease: false
-      });
+      let theseKeys = trainReady.getKeys({keyList: 'space', waitRelease: false});
       _trainReady_allKeys = _trainReady_allKeys.concat(theseKeys);
       if (_trainReady_allKeys.length > 0) {
         trainReady.keys = _trainReady_allKeys[_trainReady_allKeys.length - 1].name;  // just the last key pressed
@@ -1697,10 +1685,7 @@ function BlockEndRoutineEachFrame() {
     
     // if key_resp_block is active this frame...
     if (key_resp_block.status === PsychoJS.Status.STARTED) {
-      let theseKeys = key_resp_block.getKeys({
-        keyList: typeof 'space' === 'string' ? ['space'] : 'space', 
-        waitRelease: false
-      });
+      let theseKeys = key_resp_block.getKeys({keyList: 'space', waitRelease: false});
       _key_resp_block_allKeys = _key_resp_block_allKeys.concat(theseKeys);
       if (_key_resp_block_allKeys.length > 0) {
         key_resp_block.keys = _key_resp_block_allKeys[_key_resp_block_allKeys.length - 1].name;  // just the last key pressed
